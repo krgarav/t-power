@@ -241,7 +241,8 @@ export const loginUser = async (req, res) => {
                 id: user.id,
                 userName: user.userName,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                permissions: user.permissions
                 // Add more user data as needed
             }
         });

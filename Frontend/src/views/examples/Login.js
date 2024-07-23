@@ -17,8 +17,11 @@
 */
 
 // reactstrap components
+import Loader from "components/Loader/Loader";
+import { login } from "helper/userManagment_helper";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   Button,
   Card,
@@ -33,10 +36,12 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { setAccess } from "routes";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loader, setLoader] = useState("");
 
   const navigate = useNavigate();
 
@@ -44,8 +49,35 @@ const Login = () => {
     console.log(email)
     console.log(password)
   }, [email, password]);
+
+
+  const handleLogin = async () => {
+    try {
+      setLoader(true);
+      const data = await login({ email, password });
+      setLoader(false);
+      if (data?.success) {
+        const token = data?.token;
+        const userData = data?.data;
+        localStorage.setItem('auth', JSON.stringify({ token, userData }));
+        toast.success(data?.message);
+        // setAccess();
+        navigate("/");
+        window.location.reload();
+
+      }
+      console.log(data);
+    } catch (error) {
+      setLoader(false);
+      console.log(error);
+      toast.error(error?.response?.data?.message)
+    }
+  }
   return (
     <>
+      {loader ? (
+        <Loader />
+      ) : ("")}
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
           <div className="text-center text-muted mt-4">
@@ -94,7 +126,7 @@ const Login = () => {
                 </InputGroup>
               </FormGroup>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="button" onClick={() => { navigate("/") }}>
+                <Button className="my-4" color="primary" type="button" onClick={handleLogin}>
                   Sign in
                 </Button>
               </div>

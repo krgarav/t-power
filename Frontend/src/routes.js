@@ -34,7 +34,15 @@ import Warehouse from "views/Warehouse";
 import Tagging from "views/Tagging";
 import AddFile from "views/AddFile";
 
+
+
+const auth = JSON.parse(localStorage.getItem('auth'));
+const access = auth?.userData?.permissions;
+console.log(auth?.userData?.permissions)
+
 var routes = [
+
+
   {
     path: "/index",
     name: "Dashboard",
@@ -42,108 +50,89 @@ var routes = [
     component: <Index />,
     layout: "/admin",
   },
-  {
-    path: "/barcode",
-    name: "AddFile",
+
+
+
+  ...(access?.fileEntryAccess ? [{
+    path: "/fileEntry",
+    name: "File Entry",
     icon: "ni ni-briefcase-24 text-yellow",
     component: <AddFile />,
     layout: "/admin",
-  },
-  {
+  }] : []),
+
+  ...(access?.taggingAccess ? [{
     path: "/tagging",
     name: "Tagging",
     icon: "ni ni-briefcase-24 text-yellow",
     component: <Tagging />,
     layout: "/admin",
-  },
-  {
+  }] : []),
+  ...(access?.wareHouseAccess ? [{
     path: "/warehouse",
     name: "Warehouse",
     icon: "ni ni-shop text-orange",
     component: <Warehouse />,
     layout: "/admin",
-  },
-  // {
-  //   path: "/template",
-  //   name: "Template",
-  //   icon: "ni ni-collection text-red",
-  //   component: <Template />,
-  //   layout: "/admin",
-  // },
-  {
+  }] : []),
+
+  ...(access?.userManagementAccess ? [{
     path: "/user-managment",
     name: "User Managment",
     icon: "ni ni-circle-08 text-info",
     component: <UserManagment />,
     layout: "/admin",
-  },
-  // {
-  //   path: "/24-page-booklet",
-  //   name: "24 page Booklet",
-  //   icon: "ni ni-book-bookmark text-orange",
-  //   component: <Booklet24Page />,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/32-page-booklet",
-  //   name: "32 page Booklet",
-  //   icon: "ni ni-books text-success",
-  //   component: <Booklet32Page />,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/",
-  //   name: "Settings",
-  //   icon: "ni ni-settings-gear-65 text-primary",
-  //   component: <Settings />,
-  //   layout: "/admin",
-  // },
+  }] : []),
 
 
-
-
-
-  // {
-  //   path: "/icons",
-  //   name: "Icons",
-  //   icon: "ni ni-planet text-yellow",
-  //   component: <Icons />,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/maps",
-  //   name: "Maps",
-  //   icon: "ni ni-pin-3 text-orange",
-  //   component: <Maps />,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/user-profile",
-  //   name: "User Profile",
-  //   icon: "ni ni-single-02 text-yellow",
-  //   component: <Profile />,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/tables",
-  //   name: "Tables",
-  //   icon: "ni ni-bullet-list-67 text-red",
-  //   component: <Tables />,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/login",
-  //   name: "Login",
-  //   icon: "ni ni-key-25 text-info",
-  //   component: <Login />,
-  //   layout: "/auth",
-  // },
-  // {
-  //   path: "/register",
-  //   name: "Register",
-  //   icon: "ni ni-circle-08 text-pink",
-  //   component: <Register />,
-  //   layout: "/auth",
-  // },
 ];
+
+
+// export const generateRoutes = () => {
+//   const auth = JSON.parse(localStorage.getItem('auth'));
+//   const access = auth?.userData?.permissions;
+
+//   return [
+//     {
+//       path: "/index",
+//       name: "Dashboard",
+//       icon: "ni ni-tv-2 text-primary",
+//       component: <Index />,
+//       layout: "/admin",
+//     },
+//     ...(access?.fileEntryAccess ? [{
+//       path: "/fileEntry",
+//       name: "File Entry",
+//       icon: "ni ni-briefcase-24 text-yellow",
+//       component: <AddFile />,
+//       layout: "/admin",
+//     }] : []),
+//     ...(access?.taggingAccess ? [{
+//       path: "/tagging",
+//       name: "Tagging",
+//       icon: "ni ni-briefcase-24 text-yellow",
+//       component: <Tagging />,
+//       layout: "/admin",
+//     }] : []),
+//     ...(access?.wareHouseAccess ? [{
+//       path: "/warehouse",
+//       name: "Warehouse",
+//       icon: "ni ni-shop text-orange",
+//       component: <Warehouse />,
+//       layout: "/admin",
+//     }] : []),
+//     ...(access?.userManagementAccess ? [{
+//       path: "/user-managment",
+//       name: "User Managment",
+//       icon: "ni ni-circle-08 text-info",
+//       component: <UserManagment />,
+//       layout: "/admin",
+//     }] : []),
+//   ];
+// };
+
+// Initially generate routes when the application loads
+// const routes = generateRoutes();
 export default routes;
+
+

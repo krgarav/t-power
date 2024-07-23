@@ -119,3 +119,5 @@ export const getFileDetailData = async (req, res) => {
         res.status(500).json({ success: false, message: 'Error in get data', error });
     }
 }
+
+

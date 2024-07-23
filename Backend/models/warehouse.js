@@ -21,6 +21,12 @@ const Warehouse = sequelize.define("Warehouse", {
     issueReason: {
         type: DataTypes.STRING,
     },
+    issueTo: {
+        type: DataTypes.STRING,
+    },
+    issueBy: {
+        type: DataTypes.STRING,
+    },
     issueDate: {
         type: DataTypes.DATE,
     },

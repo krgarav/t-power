@@ -15,8 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import { useLocation, Route, Routes, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation, Route, Routes, Navigate, useNavigate } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
@@ -26,10 +26,12 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
 import DesignTemplate from "views/DesignTemplate";
+import Authmiddleware from "middlewares/Authmiddleware";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -61,6 +63,12 @@ const Admin = (props) => {
     return "Brand";
   };
 
+  useEffect(() => {
+    if (!localStorage.getItem("auth")) {
+      navigate("/auth/login");
+    }
+  })
+
   return (
     <>
       <Sidebar
@@ -78,6 +86,7 @@ const Admin = (props) => {
           brandText={getBrandText(props?.location?.pathname)}
         />
         <Routes>
+
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/admin/index" replace />} />
           <Route path="/design-template" element={<DesignTemplate />} />

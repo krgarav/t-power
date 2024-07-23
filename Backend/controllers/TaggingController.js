@@ -89,10 +89,22 @@ export const convertImageToPdfController = async (req, res) => {
         const { imageNames, csa, document, fileDataId } = req.body; // Expecting an array of image names
 
         if (!Array.isArray(imageNames) || imageNames.length === 0) {
-            return res.status(400).json({ error: 'No images provided' });
+            return res.status(400).json({ success: false, message: "Select at least one document", error: 'No images provided' });
+        }
+        if (!csa) {
+            return res.status(400).json({ success: false, message: 'CSA is required' });
+        }
+        if (!document) {
+            return res.status(400).json({ success: false, message: "document is required" });
+        }
+        if (!fileDataId) {
+            return res.status(400).json({ success: false, message: "File Data Id is required" });
         }
 
-        const outputDir = path.join(__dirname, '..', 'pdfs');
+        const currentDate = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+        // const outputDir = path.join(__dirname, '..', 'pdfs', currentDate, csa);
+        const outputDir = path.join(__dirname, '..', 'pdfs', currentDate, csa);
+        console.log(outputDir)
         const pdfFileName = `${csa}_${document}.pdf`; // Unique name for the PDF
         const pdfPath = path.join(outputDir, pdfFileName);
 
@@ -180,14 +192,15 @@ export const convertImageToPdfController = async (req, res) => {
 
 export const downloadPdfController = async (req, res) => {
     try {
-        const { pdfName } = req.body;
+        const { pdfName, csa } = req.body;
 
         if (!pdfName) {
             return res.status(400).json({ error: 'PDF name is required' });
         }
 
         // Construct the file path
-        const filePath = path.join(__dirname, '..', 'pdfs', pdfName);
+        const currentDate = new Date().toISOString().split('T')[0];
+        const filePath = path.join(__dirname, '..', 'pdfs', currentDate, csa, pdfName);
 
         // Check if the file exists
         fs.access(filePath, fs.constants.F_OK, (err) => {

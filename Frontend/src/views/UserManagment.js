@@ -65,9 +65,11 @@ const UserManagment = () => {
     const [spanDisplay, setSpanDisplay] = useState("none");
     const [allUsers, setAllUsers] = useState([]);
     const [id, setId] = useState("");
-    const [userManagementAccess, setUserManagementAccess] = useState(false);
-    const [barcodeSectionAccess, setBarcodeSectionAccess] = useState(false);
+    const [dashboardAccess, setDashboardAccess] = useState(false);
+    const [fileEntryAccess, setFileEntryAccess] = useState(false);
+    const [taggingAccess, setTaggingAccess] = useState(false);
     const [wareHouseAccess, setWareHouseAccess] = useState(false);
+    const [userManagementAccess, setUserManagementAccess] = useState(false);
 
 
 
@@ -103,9 +105,11 @@ const UserManagment = () => {
             try {
                 let role = selectecdRole.roleName;
                 let permissions = {
+                    dashboardAccess,
+                    fileEntryAccess,
+                    taggingAccess,
+                    wareHouseAccess,
                     userManagementAccess,
-                    barcodeSectionAccess,
-                    wareHouseAccess
                 };
                 const data = await updateUser({ id, userName, email, mobile, permissions })
                 if (data?.success) {
@@ -115,11 +119,14 @@ const UserManagment = () => {
                     setEmail("")
                     setMobile("")
                     setSelectedRole("")
-                    setUserManagementAccess(false);
-                    setBarcodeSectionAccess(false);
+                    setDashboardAccess(false);
+                    setFileEntryAccess(false);
+                    setTaggingAccess(false);
                     setWareHouseAccess(false);
+                    setUserManagementAccess(false);
                     setCreateModalShow(false)
                     fetchUsers();
+                    setSpanDisplay("none");
                 }
                 else {
                     toast.error(data?.message);
@@ -159,9 +166,11 @@ const UserManagment = () => {
                 try {
                     let userRole = selectecdRole.roleName
                     let permissions = {
+                        dashboardAccess,
+                        fileEntryAccess,
+                        taggingAccess,
+                        wareHouseAccess,
                         userManagementAccess,
-                        barcodeSectionAccess,
-                        wareHouseAccess
                     };
 
                     const data = await createUser({ userName, email, mobile, permissions, password });
@@ -174,11 +183,14 @@ const UserManagment = () => {
                         setSelectedRole("");
                         setPassword("");
                         setConfirmPassword("");
-                        setUserManagementAccess(false);
-                        setBarcodeSectionAccess(false);
+                        setDashboardAccess(false);
+                        setFileEntryAccess(false);
+                        setTaggingAccess(false);
                         setWareHouseAccess(false);
+                        setUserManagementAccess(false);
                         setCreateModalShow(false);
                         fetchUsers();
+                        setSpanDisplay("none");
                     } else {
                         toast.error(data?.message);
                     }
@@ -234,14 +246,18 @@ const UserManagment = () => {
         setModalShow(true);
         setId(d.id);
 
-        setUserManagementAccess(d.permissions.userManagementAccess);
-        setBarcodeSectionAccess(d.permissions.barcodeSectionAccess);
+        setDashboardAccess(d.permissions.dashboardAccess);
+        setFileEntryAccess(d.permissions.fileEntryAccess);
+        setTaggingAccess(d.permissions.taggingAccess);
         setWareHouseAccess(d.permissions.wareHouseAccess);
+        setUserManagementAccess(d.permissions.userManagementAccess);
     }
 
-    const handleUserManagementRights = (e) => { userManagementAccess === false ? setUserManagementAccess(true) : setUserManagementAccess(false) }
-    const handleBarcodeSectionRights = (e) => { barcodeSectionAccess === false ? setBarcodeSectionAccess(true) : setBarcodeSectionAccess(false) }
+    const handleDashboardRights = (e) => { dashboardAccess === false ? setDashboardAccess(true) : setDashboardAccess(false) }
+    const handleFileEntryRights = (e) => { fileEntryAccess === false ? setFileEntryAccess(true) : setFileEntryAccess(false) }
+    const handleTaggingRights = (e) => { taggingAccess === false ? setTaggingAccess(true) : setTaggingAccess(false) }
     const handleWareHouseRights = (e) => { wareHouseAccess === false ? setWareHouseAccess(true) : setWareHouseAccess(false) }
+    const handleUserManagementRights = (e) => { userManagementAccess === false ? setUserManagementAccess(true) : setUserManagementAccess(false) }
 
     return (
         <>
@@ -395,46 +411,77 @@ const UserManagment = () => {
 
                         <div className="mb-3 col-md-4 col-12 d-flex align-items-center">
                             <label htmlFor="user_Management_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
-                                User Management Access
+                                Dashboard Access
                             </label>
                             <div className="mt-2">
                                 <input
                                     type="checkbox"
-                                    id="user_Management_access"
-                                    name="user_Management_access"
+                                    id="dashboard_access"
+                                    name="dashboard_access"
                                     value={1}
-                                    onChange={handleUserManagementRights}
-                                    checked={userManagementAccess ? 'checked' : ''}
+                                    onChange={handleDashboardRights}
+                                    checked={dashboardAccess ? 'checked' : ''}
                                 />
                             </div>
                         </div>
                         <div className="mb-3 col-md-4 col-12 d-flex align-items-center">
                             <label htmlFor="user_Management_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
-                                Barcode Section Access
+                                File Entry Access
                             </label>
                             <div className="mt-2">
                                 <input
                                     type="checkbox"
-                                    id="user_Management_access"
-                                    name="user_Management_access"
+                                    id="file_entry_access"
+                                    name="file_entry_access"
                                     value={1}
-                                    onChange={handleBarcodeSectionRights}
-                                    checked={barcodeSectionAccess ? 'checked' : ''}
+                                    onChange={handleFileEntryRights}
+                                    checked={fileEntryAccess ? 'checked' : ''}
                                 />
                             </div>
                         </div>
                         <div className="mb-3 col-md-4 col-12 d-flex align-items-center">
                             <label htmlFor="user_Management_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
+                                Tagging Access
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="checkbox"
+                                    id="tagging_access"
+                                    name="tagging_access"
+                                    value={1}
+                                    onChange={handleTaggingRights}
+                                    checked={taggingAccess ? 'checked' : ''}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mb-3 col-md-4 col-12 d-flex align-items-center">
+                            <label htmlFor="warehouse_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
                                 Warehouse Access
                             </label>
                             <div className="mt-2">
                                 <input
                                     type="checkbox"
-                                    id="user_Management_access"
-                                    name="user_Management_access"
+                                    id="warehouse_access"
+                                    name="warehouse_access"
                                     value={1}
                                     onChange={handleWareHouseRights}
                                     checked={wareHouseAccess ? 'checked' : ''}
+                                />
+                            </div>
+                        </div>
+                        <div className="mb-3 col-md-4 col-12 d-flex align-items-center">
+                            <label htmlFor="warehouse_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
+                                User Managment Access
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="checkbox"
+                                    id="user_managment_access"
+                                    name="user_managment_access"
+                                    value={1}
+                                    onChange={handleUserManagementRights}
+                                    checked={userManagementAccess ? 'checked' : ''}
                                 />
                             </div>
                         </div>
@@ -560,34 +607,50 @@ const UserManagment = () => {
 
                         <div className="mb-3 col-md-4 col-12 d-flex align-items-center">
                             <label htmlFor="user_Management_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
-                                User Management Access
+                                Dashboard Access
                             </label>
                             <div className="mt-2">
                                 <input
                                     type="checkbox"
-                                    id="user_Management_access"
-                                    name="user_Management_access"
+                                    id="dashboard_access"
+                                    name="dashboard_access"
                                     value={1}
-                                    onChange={handleUserManagementRights}
-                                    checked={userManagementAccess ? 'checked' : ''}
+                                    onChange={handleDashboardRights}
+                                    checked={dashboardAccess ? 'checked' : ''}
                                 />
                             </div>
                         </div>
                         <div className="mb-3 col-md-4 col-12 d-flex align-items-center">
-                            <label htmlFor="barcode_section_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
-                                Barcode Section Access
+                            <label htmlFor="user_Management_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
+                                File Entry Access
                             </label>
                             <div className="mt-2">
                                 <input
                                     type="checkbox"
-                                    id="barcode_section_access"
-                                    name="barcode_section_access"
+                                    id="file_entry_access"
+                                    name="file_entry_access"
                                     value={1}
-                                    onChange={handleBarcodeSectionRights}
-                                    checked={barcodeSectionAccess ? 'checked' : ''}
+                                    onChange={handleFileEntryRights}
+                                    checked={fileEntryAccess ? 'checked' : ''}
                                 />
                             </div>
                         </div>
+                        <div className="mb-3 col-md-4 col-12 d-flex align-items-center">
+                            <label htmlFor="user_Management_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
+                                Tagging Access
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="checkbox"
+                                    id="tagging_access"
+                                    name="tagging_access"
+                                    value={1}
+                                    onChange={handleTaggingRights}
+                                    checked={taggingAccess ? 'checked' : ''}
+                                />
+                            </div>
+                        </div>
+
                         <div className="mb-3 col-md-4 col-12 d-flex align-items-center">
                             <label htmlFor="warehouse_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
                                 Warehouse Access
@@ -600,6 +663,21 @@ const UserManagment = () => {
                                     value={1}
                                     onChange={handleWareHouseRights}
                                     checked={wareHouseAccess ? 'checked' : ''}
+                                />
+                            </div>
+                        </div>
+                        <div className="mb-3 col-md-4 col-12 d-flex align-items-center">
+                            <label htmlFor="warehouse_access" className="col-md-6 col-form-label" style={{ fontSize: ".8rem" }}>
+                                User Managment Access
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="checkbox"
+                                    id="user_managment_access"
+                                    name="user_managment_access"
+                                    value={1}
+                                    onChange={handleUserManagementRights}
+                                    checked={userManagementAccess ? 'checked' : ''}
                                 />
                             </div>
                         </div>

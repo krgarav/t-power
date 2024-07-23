@@ -253,6 +253,7 @@ const Tagging = () => {
 
             setImages(response.data.images);
         } catch (error) {
+            setLoader(false);
             setError('An error occurred while reading the barcode.');
         }
 

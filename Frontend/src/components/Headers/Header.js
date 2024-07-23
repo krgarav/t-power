@@ -17,9 +17,34 @@
 */
 
 // reactstrap components
+import { getAnalysisData } from "helper/analysis_helper";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const [analysisData, setAnalysisData] = useState({});
+
+
+  const fetchAnalysisData = async () => {
+    try {
+      const result = await getAnalysisData();
+      if (result?.success) {
+        console.log(result);
+        setAnalysisData(result?.data);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message)
+    }
+  }
+
+  useEffect(() => {
+    fetchAnalysisData();
+  }, []);
   return (
     <>
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
@@ -28,7 +53,7 @@ const Header = () => {
             {/* Card stats */}
             <Row>
               <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
+                <Card className="card-stats mb-4 mb-xl-0" onClick={() => navigate("/admin/fileEntry")} style={{ cursor: "pointer" }} >
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -36,10 +61,10 @@ const Header = () => {
                           tag="h5"
                           className="text-uppercase text-muted mb-0"
                         >
-                          Total Scanning
+                          Total File Entry
                         </CardTitle>
                         <span className="h2 font-weight-bold mb-0">
-                          350,897
+                          {analysisData?.fileDataCount}
                         </span>
                       </div>
                       <Col className="col-auto">
@@ -58,7 +83,7 @@ const Header = () => {
                 </Card>
               </Col>
               <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
+                <Card className="card-stats mb-4 mb-xl-0" onClick={() => navigate("/admin/fileEntry")} style={{ cursor: "pointer" }} >
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -66,9 +91,9 @@ const Header = () => {
                           tag="h5"
                           className="text-uppercase text-muted mb-0"
                         >
-                          New users
+                          Total Tagging
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">10</span>
+                        <span className="h2 font-weight-bold mb-0"> {analysisData?.warehouseCount} </span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -86,7 +111,7 @@ const Header = () => {
                 </Card>
               </Col>
               <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
+                <Card className="card-stats mb-4 mb-xl-0" onClick={() => navigate("/admin/fileEntry")} style={{ cursor: "pointer" }} >
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -94,9 +119,9 @@ const Header = () => {
                           tag="h5"
                           className="text-uppercase text-muted mb-0"
                         >
-                          Jobs
+                          Total Warehousing
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">924</span>
+                        <span className="h2 font-weight-bold mb-0">{analysisData?.taggingCount}</span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -114,7 +139,7 @@ const Header = () => {
                 </Card>
               </Col>
               <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
+                <Card className="card-stats mb-4 mb-xl-0" style={{ cursor: "pointer" }} >
                   <CardBody>
                     <Row>
                       <div className="col">

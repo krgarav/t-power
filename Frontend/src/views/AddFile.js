@@ -14,6 +14,8 @@ import { saveFileData } from "helper/fileData_helper";
 import Loader from "components/Loader/Loader";
 import AllFilesTable from "./addFileComponents/AllFilesTable";
 import { getAllFilesData } from "helper/fileData_helper";
+import { downloadDataCsv } from "helper/analysis_helper";
+import { DOWNLOAD_DATA_CSV } from "helper/url_helper";
 
 
 
@@ -33,6 +35,9 @@ const AddFile = () => {
     const [files, setFiles] = useState([]);
     const [fileDetailData, setFileDetailData] = useState({});
     const [modalShow, setModalShow] = useState(false);
+    const [downloadModal, setDownloadModal] = useState(false);
+    const [from, setFrom] = useState("");
+    const [to, setTo] = useState("");
 
     const fetchAllFiles = async () => {
         try {
@@ -93,14 +98,14 @@ const AddFile = () => {
         // event.target.value = ''; // Uncomment this line if you want to clear the field after scanning
     };
 
-    const handleDownload = async (pdfName) => {
+    const handleDownload = async (pdfName, csa) => {
 
 
         try {
             setLoader(true);
             const response = await axios.post(
                 'http://localhost:8000/downloadPdf',
-                { pdfName },
+                { pdfName, csa },
                 { responseType: 'blob' } // Important for file downloads
             );
             setLoader(false);
@@ -120,6 +125,33 @@ const AddFile = () => {
         }
     };
 
+    const handleDownloadCsv = async () => {
+        try {
+            setLoader(true);
+            const response = await axios({
+                url: DOWNLOAD_DATA_CSV,
+                method: 'POST',
+                data: { from, to },
+                responseType: 'blob',
+            });
+            setLoader(false)
+
+            const blob = new Blob([response.data], { type: response.headers['content-type'] });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'data.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error(error);
+            setLoader(false)
+            toast.error("something went wrong");
+        }
+    }
+
     return (
         <>
             <NormalHeader />
@@ -129,10 +161,9 @@ const AddFile = () => {
                 ) : ("")}
                 {allFilesDisplay
                     ?
-                    <AllFilesTable files={files} setFiles={setFiles} setModalShow={setModalShow} setFileDetailData={setFileDetailData} setLoader={setLoader} setAllFilesDisplay={setAllFilesDisplay} />
+                    <AllFilesTable files={files} setFiles={setFiles} setDownloadModal={setDownloadModal} setModalShow={setModalShow} setFileDetailData={setFileDetailData} setLoader={setLoader} setAllFilesDisplay={setAllFilesDisplay} />
                     :
                     <Row>
-
                         <div className="col">
                             <Card className="shadow">
                                 <CardHeader className="border-0">
@@ -243,7 +274,7 @@ const AddFile = () => {
                 }
             </Container>
 
-
+            {/* modal for view file data in detail  */}
             <Modal
                 show={modalShow}
                 size="lg"
@@ -285,7 +316,7 @@ const AddFile = () => {
                                 <>
                                     <div className="d-flex justify-content-between mb-2">
                                         <p className="mr-5" >{i + 1}. {d?.documentName}</p>
-                                        <Button className="ml-5" color="success" type="button" onClick={() => handleDownload(d?.pdfFileName)}>Download</Button>
+                                        <Button className="ml-5" color="success" type="button" onClick={() => handleDownload(d?.pdfFileName, d?.CSA)}>Download</Button>
                                     </div>
                                 </>
                             ))}
@@ -318,6 +349,65 @@ const AddFile = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button type="button" color="primary" onClick={() => setModalShow(false)} className="waves-effect waves-light">Close</Button>{" "}
+
+                </Modal.Footer>
+            </Modal>
+
+
+            {/* modal for download data in csv  */}
+
+            <Modal
+                show={downloadModal}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header >
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Download data in csv
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+
+                    <Row className="mb-3">
+                        <label
+                            htmlFor="example-text-input"
+                            className="col-md-2 col-form-label"
+                        >
+                            From
+                        </label>
+                        <div className="col-md-10">
+                            <input type="date"
+                                className='form-control'
+                                placeholder="From"
+                                value={from}
+                                onChange={(e) => setFrom(e.target.value)} />
+                            {!from && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
+
+                        </div>
+                    </Row>
+                    <Row className="mb-3">
+                        <label
+                            htmlFor="example-text-input"
+                            className="col-md-2 col-form-label"
+                        >
+                            To
+                        </label>
+                        <div className="col-md-10">
+                            <input type="date"
+                                className='form-control'
+                                placeholder="To"
+                                value={to}
+                                onChange={(e) => setTo(e.target.value)} />
+                            {!to && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
+                        </div>
+                    </Row>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button type="button" color="primary" onClick={() => setDownloadModal(false)} className="waves-effect waves-light">Close</Button>{" "}
+                    <Button type="button" color="success" onClick={handleDownloadCsv} className="waves-effect waves-light">Download</Button>{" "}
 
                 </Modal.Footer>
             </Modal>

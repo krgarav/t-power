@@ -39,7 +39,10 @@ const AdminNavbar = (props) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    localStorage.removeItem("auth");
+
     navigate("/auth/login");
+
   };
   return (
     <>
@@ -64,7 +67,7 @@ const AdminNavbar = (props) => {
                   {/* </span> */}
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Username
+                      {JSON.parse(localStorage.getItem("auth"))?.userData?.userName}
                     </span>
                   </Media>
                 </Media>

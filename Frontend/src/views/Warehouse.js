@@ -53,6 +53,7 @@ const Warehouse = () => {
     const [CSAData, setCSAData] = useState([]);
     const [fileData, setFileData] = useState({});
     const [selectedBarcode, setSelectedBarcode] = useState("");
+    const [issueTo, setIssueTo] = useState("");
 
 
     const fetchUsers = async () => {
@@ -175,6 +176,7 @@ const Warehouse = () => {
                     setShelfNumber("");
                     setRackNumber("");
                     setSelectedCSA("");
+                    setSelectedBarcode("")
                     setFloorNumber("");
                 }
                 else {
@@ -188,12 +190,12 @@ const Warehouse = () => {
     }
 
     const handleIssueFileSubmit = async () => {
-        if (!fileIssueReason || !selectedUser) {
+        if (!fileIssueReason || !issueTo) {
             setSpanDisplay("inline");
         }
         else {
             try {
-                const data = await issueFile({ fileIssueReason, selectedUser, selectedCSA })
+                const data = await issueFile({ fileIssueReason, issueTo, selectedCSA })
                 if (data?.success) {
                     toast.success(data?.message);
                     setIssueFileModal(false);
@@ -444,16 +446,13 @@ const Warehouse = () => {
                             Select Issue To
                         </label>
                         <div className="col-md-10">
-                            <Select
 
-                                value={selectedUser}
-                                onChange={handleSelectUser}
-                                options={allUsers}
-                                getOptionLabel={option => option?.userName}
-                                getOptionValue={option => option?.id?.toString()} // Convert to string if classId is a number
-                                classNamePrefix="select2-selection"
-                            />
-                            {!selectedUser && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
+                            <input type="text"
+                                className='form-control'
+                                placeholder="Enter Issue to"
+                                value={issueTo}
+                                onChange={(e) => setIssueTo(e.target.value)} />
+                            {!issueTo && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
 
                         </div>
                     </Row>

@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes.js"; // Import user routes
 import fileDataRoutes from "./routes/fileDataRoutes.js"
 import warehouseRoutes from "./routes/warehouseRoutes.js"; // Import warehouse routes
 import taggingRoutes from "./routes/taggingRoutes.js"
+import analysisRoutes from "./routes/analysisRoutes.js";
 import bwipjs from 'bwip-js';
 import FileData from "./models/FileData.js";
 import Warehouse from "./models/warehouse.js";
@@ -35,14 +36,14 @@ app.use("/", userRoutes); // Mount user routes at /api/users
 app.use("/", fileDataRoutes);
 app.use("/", warehouseRoutes);
 app.use("/", taggingRoutes);
+app.use("/", taggingRoutes);
+app.use("/", analysisRoutes);
 
 
 
 Warehouse.belongsTo(FileData, { foreignKey: "fileDataId" });
 Tagging.belongsTo(FileData, { foreignKey: "fileDataId" });
-Warehouse.belongsTo(User, {
-    foreignKey: 'issueTo', // Replace 'userId' with your desired column name
-});
+
 const PORT = 8000;
 
 // sequelize.sync({ alter: true }).then(() => {

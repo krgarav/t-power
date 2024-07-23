@@ -6,8 +6,9 @@ import { toast } from 'react-toastify';
 import { getFilterFilesData } from 'helper/fileData_helper';
 import { getFileDetailData } from 'helper/fileData_helper';
 
-const AllFilesTable = ({ files, setFiles, setLoader, setModalShow, setFileDetailData, setAllFilesDisplay }) => {
+const AllFilesTable = ({ files, setFiles, setLoader, setModalShow, setFileDetailData, setAllFilesDisplay, setDownloadModal }) => {
     const [selectedDays, setSelectedDays] = useState("");
+    const [filterFiles, setFilterFiles] = useState([]);
 
     const daysData = [
         { id: 1, name: "One Day", value: 1 },
@@ -15,13 +16,15 @@ const AllFilesTable = ({ files, setFiles, setLoader, setModalShow, setFileDetail
         { id: 3, name: "One Month", value: 30 },
         { id: 4, name: "Six Month", value: 180 },
         { id: 5, name: "One Year", value: 365 },
+        { id: 6, name: "default", value: 0 },
+
     ];
 
     const fetchFilterFiles = async (days) => {
         try {
             const data = await getFilterFilesData({ days });
             if (data?.success) {
-                setFiles(data?.data);
+                setFilterFiles(data?.data);
             }
         } catch (error) {
             console.log(error);
@@ -30,7 +33,12 @@ const AllFilesTable = ({ files, setFiles, setLoader, setModalShow, setFileDetail
     }
     const handleDateChange = (selectedOption) => {
         setSelectedDays(selectedOption)
-        fetchFilterFiles(selectedOption.value);
+        if (selectedOption.id == 6) {
+            setFilterFiles([]);
+        }
+        else {
+            fetchFilterFiles(selectedOption.value);
+        }
     }
 
     const handleRowClick = async (d) => {
@@ -58,6 +66,7 @@ const AllFilesTable = ({ files, setFiles, setLoader, setModalShow, setFileDetail
                         <CardHeader className="border-0">
                             <div className="d-flex justify-content-between">
                                 <h3 className="mt-2">All Files</h3>
+
                                 <div className="">
                                     <Select
 
@@ -69,9 +78,15 @@ const AllFilesTable = ({ files, setFiles, setLoader, setModalShow, setFileDetail
                                         classNamePrefix="select2-selection"
                                     />
                                 </div>
-                                <Button className="" color="primary" type="button" onClick={() => setAllFilesDisplay(false)}>
-                                    Add File
-                                </Button>
+
+                                <div className="">
+                                    <Button className="" color="primary" type="button" onClick={() => setAllFilesDisplay(false)}>
+                                        Add File
+                                    </Button>
+                                    <Button className="" color="primary" type="button" onClick={() => setDownloadModal(true)}>
+                                        Download Data
+                                    </Button>
+                                </div>
                             </div>
                         </CardHeader>
                         <Table className="align-items-center table-flush mb-5" responsive>
@@ -87,51 +102,99 @@ const AllFilesTable = ({ files, setFiles, setLoader, setModalShow, setFileDetail
                                 </tr>
                             </thead>
                             <tbody style={{ minHeight: "100rem" }}>
-                                {files?.map((d, i) => (
-                                    <>
-                                        <tr key={i} onClick={() => handleRowClick(d)} style={{ cursor: "pointer" }}>
-                                            <td>{i + 1}</td>
+                                {filterFiles.length > 0 ?
+                                    filterFiles?.map((d, i) => (
+                                        <>
+                                            <tr key={i} onClick={() => handleRowClick(d)} style={{ cursor: "pointer" }}>
+                                                <td>{i + 1}</td>
 
-                                            <td>{d.CSA}</td>
+                                                <td>{d.CSA}</td>
 
-                                            <td>{d.barcode}</td>
+                                                <td>{d.barcode}</td>
 
-                                            <td>{d.typeOfRequest}</td>
+                                                <td>{d.typeOfRequest}</td>
 
-                                            <td>{d.noOfPages}</td>
+                                                <td>{d.noOfPages}</td>
 
-                                            <td>{format(new Date(d.createdAt), 'yyyy-MM-dd ')}</td>
+                                                <td>{format(new Date(d.createdAt), 'yyyy-MM-dd ')}</td>
 
-                                            <td className="text-right">
-                                                <UncontrolledDropdown>
-                                                    <DropdownToggle
-                                                        className="btn-icon-only text-light"
-                                                        href="#pablo"
-                                                        role="button"
-                                                        size="sm"
-                                                        color=""
-                                                        onClick={(e) => e.preventDefault()}
-                                                    >
-                                                        <i className="fas fa-ellipsis-v" />
-                                                    </DropdownToggle>
-                                                    <DropdownMenu className="dropdown-menu-arrow" right>
-                                                        <DropdownItem
+                                                <td className="text-right">
+                                                    <UncontrolledDropdown>
+                                                        <DropdownToggle
+                                                            className="btn-icon-only text-light"
                                                             href="#pablo"
+                                                            role="button"
+                                                            size="sm"
+                                                            color=""
+                                                            onClick={(e) => e.preventDefault()}
                                                         >
-                                                            Edit
-                                                        </DropdownItem>
-                                                        <DropdownItem
-                                                            href="#pablo"
-                                                        >
-                                                            Delete
-                                                        </DropdownItem>
+                                                            <i className="fas fa-ellipsis-v" />
+                                                        </DropdownToggle>
+                                                        <DropdownMenu className="dropdown-menu-arrow" right>
+                                                            <DropdownItem
+                                                                href="#pablo"
+                                                            >
+                                                                Edit
+                                                            </DropdownItem>
+                                                            <DropdownItem
+                                                                href="#pablo"
+                                                            >
+                                                                Delete
+                                                            </DropdownItem>
 
-                                                    </DropdownMenu>
-                                                </UncontrolledDropdown>
-                                            </td>
-                                        </tr>
-                                    </>
-                                ))}
+                                                        </DropdownMenu>
+                                                    </UncontrolledDropdown>
+                                                </td>
+                                            </tr>
+                                        </>
+                                    ))
+                                    :
+                                    files?.map((d, i) => (
+                                        <>
+                                            <tr key={i} onClick={() => handleRowClick(d)} style={{ cursor: "pointer" }}>
+                                                <td>{i + 1}</td>
+
+                                                <td>{d.CSA}</td>
+
+                                                <td>{d.barcode}</td>
+
+                                                <td>{d.typeOfRequest}</td>
+
+                                                <td>{d.noOfPages}</td>
+
+                                                <td>{format(new Date(d.createdAt), 'yyyy-MM-dd ')}</td>
+
+                                                <td className="text-right">
+                                                    <UncontrolledDropdown>
+                                                        <DropdownToggle
+                                                            className="btn-icon-only text-light"
+                                                            href="#pablo"
+                                                            role="button"
+                                                            size="sm"
+                                                            color=""
+                                                            onClick={(e) => e.preventDefault()}
+                                                        >
+                                                            <i className="fas fa-ellipsis-v" />
+                                                        </DropdownToggle>
+                                                        <DropdownMenu className="dropdown-menu-arrow" right>
+                                                            <DropdownItem
+                                                                href="#pablo"
+                                                            >
+                                                                Edit
+                                                            </DropdownItem>
+                                                            <DropdownItem
+                                                                href="#pablo"
+                                                            >
+                                                                Delete
+                                                            </DropdownItem>
+
+                                                        </DropdownMenu>
+                                                    </UncontrolledDropdown>
+                                                </td>
+                                            </tr>
+                                        </>
+                                    ))
+                                }
 
 
 

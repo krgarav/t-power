@@ -58,12 +58,12 @@ export const addFile = async (req, res) => {
 
 
 export const issueFile = async (req, res) => {
-    const { fileIssueReason, selectedUser, selectedCSA } = req.body;
+    const { fileIssueReason, issueTo, selectedCSA } = req.body;
 
     if (!fileIssueReason) {
         return res.status(400).json({ success: false, message: 'File Issue Reason is Required' });
     }
-    if (!selectedUser) {
+    if (!issueTo) {
         return res.status(400).json({ success: false, message: 'Issue to is Required' });
     }
     if (!selectedCSA) {
@@ -84,7 +84,7 @@ export const issueFile = async (req, res) => {
         }
         file.issueReason = fileIssueReason;
         file.issueDate = new Date();
-        file.issueTo = selectedUser?.id;
+        file.issueTo = issueTo;
         file.currentStatus = false;
 
         await file.save();

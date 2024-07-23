@@ -14,7 +14,11 @@ export const SAVE_FILE_DATA = url + "saveFileData";
 export const GET_ALL_FILEDATA = url + "getAllFilesData";
 export const GET_FILE_DETAIL_DATA = url + "getFileDetailData";
 export const GET_FILTER_FILES = url + "getFilterFiles";
+
 export const PRINT_BARCODE = url + "printBarcode";
+
+export const GET_ANALYSIS_DATA = url + "getAnalysisData";
+export const DOWNLOAD_DATA_CSV = url + "downloadDataCsv";
 
 export const ADD_FILE_TO_WAREHOUSE = url + "addFile";
 export const ISSUE_FILE = url + "issueFile";
