@@ -18,6 +18,7 @@ const app = express();
 // create __dirname
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { hashPassword } from "./helpers/authHelper.js";
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
@@ -47,7 +48,26 @@ Tagging.belongsTo(FileData, { foreignKey: "fileDataId" });
 const PORT = 8000;
 
 // sequelize.sync({ alter: true }).then(() => {
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: false }).then(async () => {
+
+    // Check if the admin user table exists, if not, create it
+    const adminUser = await User.findOne({ where: { email: "admin@gmail.com" } });
+    const hashedPassword = await hashPassword("123456");
+    if (!adminUser) {
+        await User.create({
+            userName: "admin",
+            mobile: "1234567890",
+            email: "admin@gmail.com",
+            password: hashedPassword, // Ensure you set the hashedPassword here
+            permissions: {
+                dashboardAccess: true,
+                fileEntryAccess: true,
+                taggingAccess: true,
+                wareHouseAccess: true,
+                userManagementAccess: true,
+            },
+        });
+    }
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
     });

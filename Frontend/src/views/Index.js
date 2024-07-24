@@ -21,7 +21,7 @@ import classnames from "classnames";
 // javascipt plugin for creating charts
 import Chart from "chart.js";
 // react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
+// import { Line, Bar } from "react-chartjs-2";
 // reactstrap components
 import {
   Button,
@@ -114,13 +114,13 @@ const Index = (props) => {
               </CardHeader>
               <CardBody>
                 {/* Chart */}
-                <div className="chart">
+                {/* <div className="chart">
                   <Line
                     data={chartExample1[chartExample1Data]}
                     options={chartExample1.options}
                     getDatasetAtEvent={(e) => console.log(e)}
                   />
-                </div>
+                </div> */}
               </CardBody>
             </Card>
           </Col>
@@ -138,12 +138,12 @@ const Index = (props) => {
               </CardHeader>
               <CardBody>
                 {/* Chart */}
-                <div className="chart">
+                {/* <div className="chart">
                   <Bar
                     data={chartExample2.data}
                     options={chartExample2.options}
                   />
-                </div>
+                </div> */}
               </CardBody>
             </Card>
           </Col>

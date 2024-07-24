@@ -4,3 +4,4 @@ import * as url from "./url_helper"
 
 // Create Class
 export const createPdfFromImages = data => post(url.CREATE_PDF_FROM_IMAGES, data);
+export const downloadZipFile = data => post(url.DOWNLOAD_ZIP_FILE, data);

@@ -1,0 +1,47 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend_container
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+    networks:
+      - mern-network
+    environment:
+      - NODE_ENV=production
+
+  backend:
+    build: ./backend
+    container_name: backend_container
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+    networks:
+      - mern-network
+
+  database:
+    image: mysql:latest
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: torrentpower
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mern-network
+
+volumes:
+  mysql_data:
+
+networks:
+  mern-network:
+    driver: bridge

@@ -1,4 +1,5 @@
-const url = "http://localhost:8000/"
+// const url = "http://localhost:8000/"
+const url = "http://backend:8000/"
 
 
 
@@ -19,6 +20,10 @@ export const PRINT_BARCODE = url + "printBarcode";
 
 export const GET_ANALYSIS_DATA = url + "getAnalysisData";
 export const DOWNLOAD_DATA_CSV = url + "downloadDataCsv";
+export const DOWNLOAD_ZIP_FILE = url + "downloadZipFile";
+export const DOWNLOAD_PDF = url + "downloadPdf";
+
+export const EXTRACT_PDF = url + "extractPdf";
 
 export const ADD_FILE_TO_WAREHOUSE = url + "addFile";
 export const ISSUE_FILE = url + "issueFile";

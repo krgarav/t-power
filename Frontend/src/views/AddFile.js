@@ -16,6 +16,7 @@ import AllFilesTable from "./addFileComponents/AllFilesTable";
 import { getAllFilesData } from "helper/fileData_helper";
 import { downloadDataCsv } from "helper/analysis_helper";
 import { DOWNLOAD_DATA_CSV } from "helper/url_helper";
+import { DOWNLOAD_PDF } from "helper/url_helper";
 
 
 
@@ -104,7 +105,7 @@ const AddFile = () => {
         try {
             setLoader(true);
             const response = await axios.post(
-                'http://localhost:8000/downloadPdf',
+                DOWNLOAD_PDF,
                 { pdfName, csa },
                 { responseType: 'blob' } // Important for file downloads
             );
@@ -316,7 +317,7 @@ const AddFile = () => {
                                 <>
                                     <div className="d-flex justify-content-between mb-2">
                                         <p className="mr-5" >{i + 1}. {d?.documentName}</p>
-                                        <Button className="ml-5" color="success" type="button" onClick={() => handleDownload(d?.pdfFileName, d?.CSA)}>Download</Button>
+                                        {/* <Button className="ml-5" color="success" type="button" onClick={() => handleDownload(d?.pdfFileName, d?.CSA)}>Download</Button> */}
                                     </div>
                                 </>
                             ))}

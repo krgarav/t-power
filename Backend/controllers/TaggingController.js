@@ -10,6 +10,7 @@ import PDFDocument from 'pdfkit';
 import { createCanvas, Image } from 'canvas';
 import { BrowserQRCodeReader } from '@zxing/library';
 import Tagging from '../models/tagging.js';
+import archiver from 'archiver';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -192,7 +193,7 @@ export const convertImageToPdfController = async (req, res) => {
 
 export const downloadPdfController = async (req, res) => {
     try {
-        const { pdfName, csa } = req.body;
+        const { date } = req.body;
 
         if (!pdfName) {
             return res.status(400).json({ error: 'PDF name is required' });
@@ -224,6 +225,48 @@ export const downloadPdfController = async (req, res) => {
         });
     }
 }
+
+
+export const downloadZipFile = async (req, res) => {
+    try {
+        const { date } = req.body;
+
+        if (!date) {
+            return res.status(400).json({ error: 'Date is required' });
+        }
+
+        // Construct the folder path
+        const folderPath = path.join(__dirname, '..', 'pdfs', date);
+
+        // Check if the folder exists
+        if (!fs.existsSync(folderPath)) {
+            return res.status(404).json({ error: 'Folder not found' });
+        }
+
+        // Create a zip file
+        const archive = archiver('zip', { zlib: { level: 9 } });
+        res.attachment(`${date}.zip`);  // Set the filename for the zip file
+
+        // Pipe the archive to the response
+        archive.pipe(res);
+
+        // Append the folder to the archive
+        archive.directory(folderPath, false, (entry) => {
+            // Optionally, you can modify file paths in the zip archive here
+            return entry;
+        });
+
+        // Finalize the archive
+        await archive.finalize();
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to download folder',
+            error: error.message
+        });
+    }
+};
 
 
 

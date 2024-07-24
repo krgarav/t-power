@@ -17,6 +17,8 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import Loader from "components/Loader/Loader";
 import { createPdfFromImages } from "helper/tagging_helper";
 import { getAllFilesData } from "helper/fileData_helper";
+import { DOWNLOAD_ZIP_FILE } from "helper/url_helper";
+import { EXTRACT_PDF } from "helper/url_helper";
 
 
 
@@ -40,6 +42,8 @@ const Tagging = () => {
     const [images, setImages] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [selectedBarcode, setSelectedBarcode] = useState("");
+    const [modalShow, setModalShow] = useState(false);
+    const [date, setDate] = useState("");
 
     const fileInputRef = useRef(null);
     const getAllFiles = async () => {
@@ -244,7 +248,7 @@ const Tagging = () => {
 
         try {
             setLoader(true);
-            const response = await axios.post('http://localhost:8000/extractPdf', formData, {
+            const response = await axios.post(EXTRACT_PDF, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -274,6 +278,39 @@ const Tagging = () => {
     };
 
 
+    const handleDownloadDataFile = async () => {
+
+
+        try {
+            if (!date) {
+                setError('Date is required');
+                return;
+            }
+
+            setLoader(true);
+            const response = await axios.post(
+                DOWNLOAD_ZIP_FILE, // Replace with your API URL
+                { date },
+                { responseType: 'blob' } // Set response type to 'blob' for binary data
+            );
+
+            // Create a link element and trigger download
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${date}.zip`); // Set the filename
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (err) {
+            toast.error('Failed to download folder');
+            console.error(err);
+        } finally {
+            setLoader(false);
+        }
+    }
+
 
 
     return (
@@ -291,6 +328,10 @@ const Tagging = () => {
                             <CardHeader className="border-0">
                                 <div className="d-flex justify-content-between">
                                     <h1 className="mt-2">Tag a File</h1>
+
+                                    <Button className="" color="primary" type="button" onClick={() => setModalShow(true)}>
+                                        Download Files
+                                    </Button>
                                 </div>
 
                                 <Row className="mb-3">
@@ -437,6 +478,46 @@ const Tagging = () => {
                 </Row>
 
             </Container>
+            <Modal
+                show={modalShow}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header >
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Download Data File
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+
+                    <Row className="mb-3">
+                        <label
+                            htmlFor="example-text-input"
+                            className="col-md-2 col-form-label"
+                        >
+                            Select Date
+                        </label>
+                        <div className="col-md-10">
+                            <input type="date"
+                                className='form-control'
+                                placeholder="Select Date"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)} />
+                            {!date && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
+
+                        </div>
+                    </Row>
+
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button type="button" color="primary" onClick={() => setModalShow(false)} className="waves-effect waves-light">Close</Button>{" "}
+                    <Button type="button" color="success" onClick={handleDownloadDataFile} className="waves-effect waves-light">Download</Button>{" "}
+
+                </Modal.Footer>
+            </Modal>
 
         </>
     );

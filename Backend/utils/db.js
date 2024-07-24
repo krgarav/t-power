@@ -2,7 +2,9 @@ import { Sequelize } from "sequelize";
 
 const sequelize = new Sequelize("torrentpower", "root", "root", {
     dialect: "mysql",
-    host: "localhost",
+    host: "database",
+    port: 3307
+    // host: "localhost",
 });
 
 async function fun() {
