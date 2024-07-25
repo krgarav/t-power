@@ -97,7 +97,7 @@ export const downloadDataCsv = async (req, res) => {
 
 export const generateExcelFile = async (data) => {
     const workbook = xlsx.utils.book_new();
-
+    
     // Prepare a single sheet with multiple rows
     const sheetData = [];
 
@@ -109,12 +109,19 @@ export const generateExcelFile = async (data) => {
         'Type of Request',
         'Entry Date At',
         'Tagging Status',
+        'Tagging Documents',
         'Warehousing Status',
         'Warehousing Details'
     ]);
 
     // Add data rows
     data.forEach((entry, index) => {
+        let taggingDocuments = "";
+        let a = entry.tagging.map((d) => {
+            taggingDocuments += d.documentName + ", "
+            console.log("fdfjdkfjkd ---> ", taggingDocuments)
+        });
+        console.log(taggingDocuments)
         // Add fileData information
         const fileDataRow = [
             index + 1,
@@ -123,6 +130,7 @@ export const generateExcelFile = async (data) => {
             entry.fileData.typeOfRequest,
             entry.fileData.createdAt,
             entry.tagging.length > 0 ? "Done" : "Pending",
+            taggingDocuments,
             entry.warehouse.length > 0 ? "Done" : "Pending",
         ];
 

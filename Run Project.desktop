@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Run Project
+Comment=Starts frontend and backend servers
+Exec=./run-project.sh
+Icon=utilities-terminal
+Terminal=true
+Type=Application
+Categories=Utility;Application;
+
