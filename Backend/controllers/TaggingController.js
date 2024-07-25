@@ -142,7 +142,7 @@ export const convertImageToPdfController = async (req, res) => {
         // const outputDir = path.join(__dirname, '..', 'pdfs', currentDate, csa);
         const outputDir = path.join(__dirname, '..', 'pdfs', currentDate, csa);
         console.log(outputDir)
-        const pdfFileName = `${csa}_${document}.pdf`; // Unique name for the PDF
+        const pdfFileName = `${document}_${currentDate}_${csa}.pdf`; // Unique name for the PDF
         const pdfPath = path.join(outputDir, pdfFileName);
 
         // Ensure the directory exists

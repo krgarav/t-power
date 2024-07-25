@@ -105,7 +105,7 @@ export const generateExcelFile = async (data) => {
     sheetData.push([
         'Index',
         'Barcode',
-        'CSA',
+        'Service',
         'Type of Request',
         'Entry Date At',
         'Tagging Status',
