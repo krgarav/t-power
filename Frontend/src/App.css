@@ -19,6 +19,9 @@ input[type=number] {
     -moz-appearance: textfield;
 
 }
+input {
+    color: black;
+}
 
 .head {
     width: 70vw;

@@ -72,8 +72,8 @@ const AddFile = () => {
             setLoader(false);
             if (data?.success) {
                 toast.success(data?.message);
-                setCSANumber(null);
-                setTypeOfRequest(null);
+                setCSANumber("");
+                setTypeOfRequest("");
                 setNoOfPages("");
                 setDateOfApplication("");
                 setBarcode("");
@@ -190,6 +190,7 @@ const AddFile = () => {
                                                 placeholder="Scan barcode here"
                                                 onChange={handleChange}
                                                 autoFocus // Automatically focus the input field when the component mounts
+                                                style={{color: "black"}}
                                             />
                                             {!barcode && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
                                         </div>
@@ -207,7 +208,8 @@ const AddFile = () => {
                                                 className='form-control'
                                                 placeholder="Enter Customer Service Number"
                                                 value={CSANumber}
-                                                onChange={(e) => setCSANumber(e.target.value)} />
+                                                onChange={(e) => setCSANumber(e.target.value)} 
+                                                style={{color: "black"}}/>
                                             {!CSANumber && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
                                         </div>
                                     </Row>
@@ -223,7 +225,8 @@ const AddFile = () => {
                                                 className='form-control'
                                                 placeholder="Enter Type of Request"
                                                 value={typeOfRequest}
-                                                onChange={(e) => setTypeOfRequest(e.target.value)} />
+                                                onChange={(e) => setTypeOfRequest(e.target.value)} 
+                                                style={{color: "black"}}/>
                                             {!typeOfRequest && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
                                         </div>
                                     </Row>
@@ -239,7 +242,8 @@ const AddFile = () => {
                                                 className='form-control'
                                                 placeholder="Enter Number of Pages"
                                                 value={noOfPages}
-                                                onChange={(e) => setNoOfPages(e.target.value)} />
+                                                onChange={(e) => setNoOfPages(e.target.value)} 
+                                                style={{color: "black"}}/>
                                             {!noOfPages && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
                                         </div>
                                     </Row>
@@ -255,6 +259,7 @@ const AddFile = () => {
                                                 className='form-control'
                                                 placeholder="Enter Date of Application"
                                                 value={dateOfApplication}
+                                                style={{color: "black"}}
                                                 onChange={(e) => setDateOfApplication(e.target.value)} />
                                             {!dateOfApplication && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
                                         </div>

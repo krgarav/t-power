@@ -20,7 +20,7 @@ const __dirname = path.dirname(__filename);
 function convertPDFToImages(pdfPath, outputDir, options = {}, callback) {
     const outputPrefix = path.join(outputDir, 'page');
     const format = options.format || 'png';
-    const resolution = options.resolution || 300;
+    const resolution = options.resolution || 150;
 
     // Escape the file paths
     const escapedPdfPath = `"${pdfPath.replace(/"/g, '\\"')}"`;
@@ -127,7 +127,6 @@ export const extractPdfController = async (req, res) => {
         });
     }
 };
-
 
 export const convertImageToPdfController = async (req, res) => {
     try {

@@ -186,33 +186,7 @@ const Tagging = () => {
         setSelectedCSA(selectedOption);
     }
 
-    // const onFileChange = async (event) => {
-    //     const file = event.target.files[0];
-    //     setFile(event.target.value)
-    //     // setFile(file)
-    //     if (file) {
-    //         const fileReader = new FileReader();
-    //         fileReader.onload = async () => {
-    //             const arrayBuffer = fileReader.result; // This is the ArrayBuffer of the file
-    //             const pdfDoc = await PDFDocument.load(arrayBuffer);
-
-    //             console.log(pdfDoc.getPageCount());
-    //             console.log(selectedCSA)
-    //             setPageCount(pdfDoc.getPageCount());
-    //             if (selectedCSA.noOfPages !== pdfDoc.getPageCount()) {
-    //                 toast.error("Pages of the file are not match with the application file")
-    //                 setPageCheck(false);
-    //                 setFile("");
-    //             }
-    //             else {
-    //                 setPageCheck(true);
-    //             }
-
-
-    //         };
-    //         fileReader.readAsArrayBuffer(file);
-    //     }
-    // };
+    
 
 
     const addPageData = () => {
@@ -269,6 +243,7 @@ const Tagging = () => {
             setLoader(false);
             if (data?.success) {
                 toast.success(data?.message);
+                SetDocumentType(null);
                 removeSelectedImages();
             }
             else {
@@ -558,7 +533,7 @@ const Tagging = () => {
                                     </div>
 
                                     <div className="col-md-5">
-                                        {images.length > -1 && (
+                                        {images.length > 0 && (
                                             <>
 
                                                 <Row className="mb-3">
