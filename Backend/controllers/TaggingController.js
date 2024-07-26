@@ -17,10 +17,11 @@ const __dirname = path.dirname(__filename);
 
 
 // Convert PDF to images using pdftoppm
+
 function convertPDFToImages(pdfPath, outputDir, options = {}, callback) {
     const outputPrefix = path.join(outputDir, 'page');
     const format = options.format || 'png';
-    const resolution = options.resolution || 150;
+    const resolution = options.resolution || 72;
 
     // Escape the file paths
     const escapedPdfPath = `"${pdfPath.replace(/"/g, '\\"')}"`;

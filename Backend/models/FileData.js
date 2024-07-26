@@ -20,6 +20,10 @@ const FileData = sequelize.define("FileData", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    collectionPoint: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     dateOfApplication: {
         type: DataTypes.DATE,
         allowNull: false

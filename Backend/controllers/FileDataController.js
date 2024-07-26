@@ -6,7 +6,7 @@ import Tagging from '../models/tagging.js';
 import Warehouse from '../models/warehouse.js';
 
 export const saveFileDataController = async (req, res) => {
-    const { CSA, noOfPages, typeOfRequest, dateOfApplication, barcode } = req.body;
+    const { CSA, noOfPages, typeOfRequest, dateOfApplication, barcode, collPoint } = req.body;
     const bcType = 'code128';
 
     if (!CSA) {
@@ -23,6 +23,9 @@ export const saveFileDataController = async (req, res) => {
     }
     if (!barcode) {
         return res.status(400).json({ success: false, message: "barcode is required" });
+    }
+    if (!collPoint) {
+        return res.status(400).json({ success: false, message: "collection point is required" });
     }
 
     try {
@@ -44,6 +47,7 @@ export const saveFileDataController = async (req, res) => {
                     typeOfRequest: typeOfRequest,
                     dateOfApplication: dateOfApplication,
                     barcode: barcode,
+                    collectionPoint: collPoint,
                     createAt: Date.now()
                 });
                 return res.status(200).json({ success: true, message: "File Save Successfully" })

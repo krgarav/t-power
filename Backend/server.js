@@ -47,7 +47,7 @@ Tagging.belongsTo(FileData, { foreignKey: "fileDataId" });
 
 const PORT = 8000;
 
-// sequelize.sync({ alter: true }).then(() => {
+// sequelize.sync({ alter: true }).then(async () => {
 sequelize.sync({ force: false }).then(async () => {
 
     // Check if the admin user table exists, if not, create it

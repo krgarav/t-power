@@ -17,7 +17,7 @@ import { getAllFilesData } from "helper/fileData_helper";
 import { downloadDataCsv } from "helper/analysis_helper";
 import { DOWNLOAD_DATA_CSV } from "helper/url_helper";
 import { DOWNLOAD_PDF } from "helper/url_helper";
-
+import Select from "react-select"
 
 
 
@@ -39,6 +39,7 @@ const AddFile = () => {
     const [downloadModal, setDownloadModal] = useState(false);
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
+    const [collectionPoint, setCollectionPoint] = useState("");
 
     const fetchAllFiles = async () => {
         try {
@@ -60,22 +61,28 @@ const AddFile = () => {
 
     }, []);
 
-
+    const collectionPointData = [
+        { id: 1, name: "Jaipur House" },
+        { id: 2, name: "Pratap Pura" },
+        { id: 3, name: "Sanjay Palace" },
+        
+    ];
 
 
     const handleSave = async () => {
         let CSA = CSANumber;
         try {
             console.log(CSA, typeOfRequest, noOfPages, dateOfApplication, "barcode", barcode)
+            let collPoint = collectionPoint.name;
             setLoader(true);
-            const data = await saveFileData({ CSA, typeOfRequest, noOfPages, dateOfApplication, barcode })
+            const data = await saveFileData({ CSA, typeOfRequest, noOfPages, dateOfApplication, barcode, collPoint })
             setLoader(false);
             if (data?.success) {
                 toast.success(data?.message);
                 setCSANumber("");
                 setTypeOfRequest("");
                 setNoOfPages("");
-                setDateOfApplication("");
+                // setDateOfApplication("");
                 setBarcode("");
             }
             else {
@@ -231,6 +238,25 @@ const AddFile = () => {
                                         </div>
                                     </Row>
                                     <Row className="mb-3">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-md-2 col-form-label"
+                                                    >
+                                                        Collection Point
+                                                    </label>
+                                                    <div className="col-md-10">
+                                                        <Select
+                                                            onChange={(selectedOption) => setCollectionPoint(selectedOption)}
+                                                            options={collectionPointData}
+                                                            getOptionLabel={(option) => option?.name}
+                                                            getOptionValue={(option) => option?.id?.toString()}
+                                                            classNamePrefix="select2-selection"
+                                                            value={collectionPoint}
+
+                                                        />
+                                                    </div>
+                                                </Row>
+                                    <Row className="mb-3">
                                         <label
                                             htmlFor="example-text-input"
                                             className="col-md-2 col-form-label"
@@ -302,6 +328,9 @@ const AddFile = () => {
                     </div>
                     <div className="">
                         Type Of Request: {fileDetailData?.fileData?.typeOfRequest}
+                    </div>
+                    <div className="">
+                        Collection Point: {fileDetailData?.fileData?.collectionPoint}
                     </div>
                     <div className="">
                         No Of Pages: {fileDetailData?.fileData?.noOfPages}

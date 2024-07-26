@@ -171,7 +171,8 @@ const Tagging = () => {
         { id: 60, name: "NILDUE (Nill Dues AFFIDAVIT on 10rs Stamp Paper For Temporary Connection)" },
         { id: 61, name: "DOMC (DOMICILE CERTIFICATE)" },
         { id: 62, name: "TAXR (House Tax Receipt)" },
-        { id: 63, name: "WILL (WILL)" }
+        { id: 63, name: "WILL (WILL)" },
+        { id: 64, name: "CHKLT (Checklist)" }
     ];
 
 
