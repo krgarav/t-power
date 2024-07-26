@@ -1,16 +1,10 @@
-FROM node:20-alpine
+# Use an Ubuntu-based Node.js image
+FROM node:20-bullseye
 
-RUN apk add --no-cache \
-    python3 \
-    py3-pip \
-    build-base \
-    pkgconf \
-    cairo-dev \
-    pango-dev \
-    libjpeg-turbo-dev \
-    giflib-dev \
-    pixman-dev \
-    fribidi-dev
+# Install only poppler-utils
+RUN apt-get update && apt-get install -y \
+    poppler-utils \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 

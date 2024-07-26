@@ -63,50 +63,115 @@ const Tagging = () => {
     }, []);
 
 
+    // const documentsData = [
+    //     { id: 1, name: "RF (New Requisition Form)" },
+    //     { id: 2, name: "RFNC (RF Name Change)" },
+    //     { id: 3, name: "RFRE (RF Reconnection)" },
+    //     { id: 4, name: "RFSH (RF Shifting)" },
+    //     { id: 5, name: "TR (Test Report)" },
+    //     { id: 6, name: "SR (Solar Requisition)" },
+    //     { id: 7, name: "RFEX (RF Ext)" },
+    //     { id: 8, name: "RENT (Rent Receipt &/ Rent Agreement)" },
+    //     { id: 9, name: "ATS (Agreement to Sale (Banakhat))" },
+    //     { id: 10, name: "TXBL (Tax Bill)" },
+    //     { id: 11, name: "IB (Indemnity Bond)" },
+    //     { id: 12, name: "712FL (7/12 Copy)" },
+    //     { id: 13, name: "ELEC (Election Card)" },
+    //     { id: 14, name: "INDEX (Index Copy)" },
+    //     { id: 15, name: "RATCD (Ration Card)" },
+    //     { id: 16, name: "PANP (Pan Card)" },
+    //     { id: 17, name: "PANCO (Pan card - Company)" },
+    //     { id: 18, name: "ADHAR (ADHAR CARD)" },
+    //     { id: 19, name: "PHID (PHOTO ID BY ANY GOVT AGENCY)" },
+    //     { id: 20, name: "PASS (PASSPORT)" },
+    //     { id: 21, name: "PA (Power off Attorney)" },
+    //     { id: 22, name: "DRLEC (DRIVING LICENCE)" },
+    //     { id: 23, name: "SBA (Statement of Bank Account)" },
+    //     { id: 24, name: "STN (Sales Tax Number)" },
+    //     { id: 25, name: "DTHCR (Death Certificate)" },
+    //     { id: 26, name: "ROC (Certificate from Reg of companies)" },
+    //     { id: 27, name: "MACERT (MARRIAGE CERTIFICATE)" },
+    //     { id: 28, name: "SHCERT (SHARE CERTIFICATE)" },
+    //     { id: 29, name: "LEASE (Lease Deed)" },
+    //     { id: 30, name: "PARTD (Partnership deed)" },
+    //     { id: 31, name: "SLDD (Sale Deed)" },
+    //     { id: 32, name: "TRUST (Trust Deed)" },
+    //     { id: 33, name: "PANLT (Panchayat Letter)" },
+    //     { id: 34, name: "POSLT (Possession Letter)" },
+    //     { id: 35, name: "RTGS (RTGS Form)" },
+    //     { id: 36, name: "6AVF (6A Copy (Hakk Patrak))" },
+    //     { id: 37, name: "BANK (BANK DETAILS)" },
+    //     { id: 38, name: "MOA (Memo. Of Assoc.)" },
+    //     { id: 39, name: "OTH (Others)" },
+    //     { id: 40, name: "NOC (NOC)" },
+    //     { id: 41, name: "PLAN (Plan of Premises)" },
+    //     { id: 42, name: "LPLAN (Layout plan)" },
+    // ];
+
     const documentsData = [
         { id: 1, name: "RF (New Requisition Form)" },
         { id: 2, name: "RFNC (RF Name Change)" },
-        { id: 3, name: "RFRE (RF Reconnection)" },
-        { id: 4, name: "RFSH (RF Shifting)" },
+        { id: 3, name: "SR (Solar Requisition)" },
+        { id: 4, name: "PDCRF (Service Removal RF)" },
         { id: 5, name: "TR (Test Report)" },
-        { id: 6, name: "SR (Solar Requisition)" },
-        { id: 7, name: "RFEX (RF Ext)" },
-        { id: 8, name: "RENT (Rent Receipt &/ Rent Agreement)" },
-        { id: 9, name: "ATS (Agreement to Sale (Banakhat))" },
-        { id: 10, name: "TXBL (Tax Bill)" },
-        { id: 11, name: "IB (Indemnity Bond)" },
-        { id: 12, name: "712FL (7/12 Copy)" },
-        { id: 13, name: "ELEC (Election Card)" },
-        { id: 14, name: "INDEX (Index Copy)" },
-        { id: 15, name: "RATCD (Ration Card)" },
-        { id: 16, name: "PANP (Pan Card)" },
-        { id: 17, name: "PANCO (Pan card - Company)" },
-        { id: 18, name: "ADHAR (ADHAR CARD)" },
-        { id: 19, name: "PHID (PHOTO ID BY ANY GOVT AGENCY)" },
-        { id: 20, name: "PASS (PASSPORT)" },
-        { id: 21, name: "PA (Power off Attorney)" },
-        { id: 22, name: "DRLEC (DRIVING LICENCE)" },
-        { id: 23, name: "SBA (Statement of Bank Account)" },
-        { id: 24, name: "STN (Sales Tax Number)" },
-        { id: 25, name: "DTHCR (Death Certificate)" },
-        { id: 26, name: "ROC (Certificate from Reg of companies)" },
-        { id: 27, name: "MACERT (MARRIAGE CERTIFICATE)" },
-        { id: 28, name: "SHCERT (SHARE CERTIFICATE)" },
-        { id: 29, name: "LEASE (Lease Deed)" },
-        { id: 30, name: "PARTD (Partnership deed)" },
-        { id: 31, name: "SLDD (Sale Deed)" },
-        { id: 32, name: "TRUST (Trust Deed)" },
-        { id: 33, name: "PANLT (Panchayat Letter)" },
-        { id: 34, name: "POSLT (Possession Letter)" },
-        { id: 35, name: "RTGS (RTGS Form)" },
-        { id: 36, name: "6AVF (6A Copy (Hakk Patrak))" },
-        { id: 37, name: "BANK (BANK DETAILS)" },
-        { id: 38, name: "MOA (Memo. Of Assoc.)" },
-        { id: 39, name: "OTH (Others)" },
-        { id: 40, name: "NOC (NOC)" },
-        { id: 41, name: "PLAN (Plan of Premises)" },
-        { id: 42, name: "LPLAN (Layout plan)" },
-        { id: 43, name: "Others" }
+        { id: 6, name: "SACH (Safety Challan)" },
+        { id: 7, name: "DESNOC (DES NOC)" },
+        { id: 8, name: "DICNOC (DIC NOC)" },
+        { id: 9, name: "FIRENOC (FIRE NOC)" },
+        { id: 10, name: "FIRC (Police FIR)" },
+        { id: 11, name: "RENTA (Rent Receipt & Rent Agreement)" },
+        { id: 12, name: "ATS (Agreement to Sale)" },
+        { id: 13, name: "ANNASS (Agra Nagar Nigam Assessment)" },
+        { id: 14, name: "IB (Indemnity Bond-New Connection)" },
+        { id: 15, name: "IBNC (Indemnity Bond-Name Change)" },
+        { id: 16, name: "ELEC (Election Card/Voter Card)" },
+        { id: 17, name: "RATCD (Ration Card)" },
+        { id: 18, name: "PANP (Pan Card)" },
+        { id: 19, name: "PANCO (Pan card - Company)" },
+        { id: 20, name: "ADHAR (ADHAR CARD)" },
+        { id: 21, name: "PHID (PHOTO ID BY ANY GOVT AGENCY)" },
+        { id: 22, name: "PASS (PASSPORT)" },
+        { id: 23, name: "POA (Power off Attorney)" },
+        { id: 24, name: "DRLEC (DRIVING LICENCE)" },
+        { id: 25, name: "SBA (Statement of Bank Account)" },
+        { id: 26, name: "STN (Sales Tax Number)" },
+        { id: 27, name: "GSTD (GST Declaration)" },
+        { id: 28, name: "GSTIN (GST Identification No.)" },
+        { id: 29, name: "DTHCR (Death Certificate)" },
+        { id: 30, name: "SUCCDE (SUCCESSION DEED)" },
+        { id: 31, name: "LEGLHIE (Legal Hiership)" },
+        { id: 32, name: "BORES (Board Resolution)" },
+        { id: 33, name: "ROC (Certificate from Reg of companies)" },
+        { id: 34, name: "MACERT (MARRIAGE CERTIFICATE)" },
+        { id: 35, name: "LEASE (Lease Deed)" },
+        { id: 36, name: "PARTD (Partnership deed)" },
+        { id: 37, name: "SLDD (Sale Deed)" },
+        { id: 38, name: "GFTDD (Gift Deed)" },
+        { id: 39, name: "COMPLH (Company Letter Head)" },
+        { id: 40, name: "CORRDD (Correction Deed)" },
+        { id: 41, name: "TRUST (Trust Deed)" },
+        { id: 42, name: "PANLT (Panchayat Letter)" },
+        { id: 43, name: "POSLT (Possession Letter)" },
+        { id: 44, name: "RTGS (RTGS Form)" },
+        { id: 45, name: "BANK (BANK DETAILS)" },
+        { id: 46, name: "MOA (Memo. Of Assoc.)" },
+        { id: 47, name: "AOA (Article of Assoc)" },
+        { id: 48, name: "COI (Certificate of Incorporation)" },
+        { id: 49, name: "OTH (Others)" },
+        { id: 50, name: "NOCLL (NOC OF LANDLORD)" },
+        { id: 51, name: "NOCCO (NOC OF CO-OWNER)" },
+        { id: 52, name: "PLAN (Plan of Premises)" },
+        { id: 53, name: "LPLAN (Layout plan)" },
+        { id: 54, name: "BANKPA (BANK PASSBOOK)" },
+        { id: 55, name: "CANCH (CANCELLED CHEQUE)" },
+        { id: 56, name: "AFFID (AFFIDAVIT)" },
+        { id: 57, name: "KHATA (KHATAUNI)" },
+        { id: 58, name: "ALLTLT (ALLOTMENT LETTER)" },
+        { id: 59, name: "ADADEC (ADA MAP DECLARATION)" },
+        { id: 60, name: "NILDUE (Nill Dues AFFIDAVIT on 10rs Stamp Paper For Temporary Connection)" },
+        { id: 61, name: "DOMC (DOMICILE CERTIFICATE)" },
+        { id: 62, name: "TAXR (House Tax Receipt)" },
+        { id: 63, name: "WILL (WILL)" }
     ];
 
 
@@ -311,7 +376,15 @@ const Tagging = () => {
         }
     }
 
+    const [zoomedImage, setZoomedImage] = useState(null);
 
+    const handleDoubleClick = (image) => {
+        if (zoomedImage === image) {
+            setZoomedImage(null); // Zoom out if already zoomed in
+        } else {
+            setZoomedImage(image); // Zoom in
+        }
+    };
 
     return (
         <>
@@ -396,7 +469,7 @@ const Tagging = () => {
                                         <div>
                                             {images?.length > 0 && (
                                                 <div style={{ overflowY: "scroll", height: "40rem" }}>
-                                                    {images.map((image, index) => (
+                                                    {/* {images.map((image, index) => (
 
 
                                                         <div
@@ -428,6 +501,56 @@ const Tagging = () => {
                                                                 }}
                                                             />
                                                         </div>
+                                                    ))} */}
+
+                                                    {images.map((image, index) => (
+                                                        <div
+                                                            key={index}
+                                                            style={{
+                                                                position: 'relative',
+                                                                display: 'inline-block',
+                                                                margin: '10px 5px',
+                                                                ...(zoomedImage === image && {
+                                                                    position: 'fixed',
+                                                                    top: '50%',
+                                                                    left: '50%',
+                                                                    transform: 'translate(-50%, -50%)',
+                                                                    zIndex: 1000,
+                                                                }),
+                                                            }}
+                                                        >
+                                                            {selectedImages.includes(image) && (
+                                                                <FontAwesomeIcon
+                                                                    icon={faCheck}
+                                                                    style={{
+                                                                        position: 'absolute',
+                                                                        top: '5px',
+                                                                        left: '5px',
+                                                                        color: 'green',
+                                                                        fontSize: '20px',
+                                                                        zIndex: 1,
+                                                                    }}
+                                                                />
+                                                            )}
+                                                            <img
+                                                                src={`http://localhost:8000${image}`}
+                                                                alt={`Page ${index + 1}`}
+                                                                onClick={() => handleImageClick(image)}
+                                                                onDoubleClick={() => handleDoubleClick(image)}
+                                                                style={{
+                                                                    width: zoomedImage === image ? '80%' : '200px',
+                                                                    maxWidth: zoomedImage === image ? 'none' : '600px',
+                                                                    border: '2px solid black',
+                                                                    cursor: 'pointer',
+                                                                    ...(zoomedImage === image && {
+                                                                        width: 'auto',
+                                                                        height: '85vh',
+                                                                        maxWidth: '90%',
+                                                                        maxHeight: '85vh',
+                                                                    }),
+                                                                }}
+                                                            />
+                                                        </div>
                                                     ))}
                                                 </div>
                                             )}
@@ -435,7 +558,7 @@ const Tagging = () => {
                                     </div>
 
                                     <div className="col-md-5">
-                                        {images.length > 0 && (
+                                        {images.length > -1 && (
                                             <>
 
                                                 <Row className="mb-3">

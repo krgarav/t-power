@@ -21,104 +21,112 @@ function convertPDFToImages(pdfPath, outputDir, options = {}, callback) {
     const outputPrefix = path.join(outputDir, 'page');
     const format = options.format || 'png';
     const resolution = options.resolution || 300;
-  
+
     // Escape the file paths
     const escapedPdfPath = `"${pdfPath.replace(/"/g, '\\"')}"`;
     const escapedOutputPrefix = `"${outputPrefix.replace(/"/g, '\\"')}"`;
-  
+
     const command = `pdftoppm -r ${resolution} -${format} ${escapedPdfPath} ${escapedOutputPrefix}`;
-  
+
     exec(command, (error, stdout, stderr) => {
-      if (error) {
-        callback(error, null);
-        return;
-      }
-      if (stderr) {
-        callback(new Error(stderr), null);
-        return;
-      }
-  
-      // Collect the generated image file names
-      const files = fs.readdirSync(outputDir).filter(file => file.startsWith('page') && file.endsWith(`.${format}`));
-      callback(null, files.map(file => path.join(outputDir, file)));
-    });
-  }
-  
-  export const extractPdfController = async (req, res) => {
-    try {
-      const filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
-  
-      // Check if file exists
-      if (!fs.existsSync(filePath)) {
-        return res.status(400).json({ error: 'File does not exist' });
-      }
-  
-      // Create a unique directory for this conversion
-      const uniqueDirName = uuidv4(); // Generate a unique identifier
-      const outputDir = path.join(__dirname, '..', 'images', uniqueDirName);
-  
-      // Ensure that the parent directories exist
-      const parentDir = path.dirname(outputDir);
-      if (!fs.existsSync(parentDir)) {
-        fs.mkdirSync(parentDir, { recursive: true });
-      }
-  
-      // Create the unique directory
-      fs.mkdirSync(outputDir, { recursive: true });
-  
-      const options = {
-        format: 'png',
-        resolution: 300,
-      };
-  
-      convertPDFToImages(filePath, outputDir, options, (error, files) => {
         if (error) {
-          res.status(500).json({
-            success: false,
-            message: 'Error in converting PDF to images',
-            error: error.message,
-          });
-          return;
+            callback(error, null);
+            return;
         }
-  
-        // Filter images based on prefix and format
-        const imageFiles = files;
-        // Construct URLs for the filtered images
-        const imageUrls = imageFiles.map(file => path.join('/images', uniqueDirName, path.basename(file)));
-  
-        const imagePath = imageFiles[0]; // Assuming you want to read the barcode from the first page
-        console.log(imagePath);
-  
-        readBarcodeFromImage(imagePath)
-          .then((barcode) => {
-            console.log('Barcode:', barcode);
-            res.status(200).json({
-              success: true,
-              barcode: barcode,
-              message: 'PDF converted to images',
-              images: imageUrls,
-            });
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-            res.status(200).json({
-              success: true,
-              message: 'Error in Reading barcode.',
-              error: error.message,
-              images: imageUrls,
-            });
-          });
-      });
-  
+        if (stderr) {
+            callback(new Error(stderr), null);
+            return;
+        }
+
+        // Collect the generated image file names
+        const files = fs.readdirSync(outputDir).filter(file => file.startsWith('page') && file.endsWith(`.${format}`));
+        callback(null, files.map(file => path.join(outputDir, file)));
+    });
+}
+
+export const extractPdfController = async (req, res) => {
+    try {
+        const filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
+
+        // console
+        // const testUrls = ["/images/7a3a4f44-bbf5-462c-a78d-2e0e125aafb8/page-01.png", "/images/7a3a4f44-bbf5-462c-a78d-2e0e125aafb8/page-02.png", "/images/7a3a4f44-bbf5-462c-a78d-2e0e125aafb8/page-03.png", "/images/7a3a4f44-bbf5-462c-a78d-2e0e125aafb8/page-07.png", "/images/7a3a4f44-bbf5-462c-a78d-2e0e125aafb8/page-08.png", "/images/7a3a4f44-bbf5-462c-a78d-2e0e125aafb8/page-09.png", "/images/7a3a4f44-bbf5-462c-a78d-2e0e125aafb8/page-10.png", "/images/7a3a4f44-bbf5-462c-a78d-2e0e125aafb8/page-11.png", "/images/7a3a4f44-bbf5-462c-a78d-2e0e125aafb8/page-12.png"]
+
+        // return res.status(200).json({
+        //     success: true,
+        //     message: 'Error in Reading barcode.',
+        //     images: testUrls,
+        // });
+        // Check if file exists
+        if (!fs.existsSync(filePath)) {
+            return res.status(400).json({ error: 'File does not exist' });
+        }
+
+        // Create a unique directory for this conversion
+        const uniqueDirName = uuidv4(); // Generate a unique identifier
+        const outputDir = path.join(__dirname, '..', 'images', uniqueDirName);
+
+        // Ensure that the parent directories exist
+        const parentDir = path.dirname(outputDir);
+        if (!fs.existsSync(parentDir)) {
+            fs.mkdirSync(parentDir, { recursive: true });
+        }
+
+        // Create the unique directory
+        fs.mkdirSync(outputDir, { recursive: true });
+
+        const options = {
+            format: 'png',
+            resolution: 300,
+        };
+
+        convertPDFToImages(filePath, outputDir, options, (error, files) => {
+            if (error) {
+                res.status(500).json({
+                    success: false,
+                    message: 'Error in converting PDF to images',
+                    error: error.message,
+                });
+                return;
+            }
+
+            // Filter images based on prefix and format
+            const imageFiles = files;
+            // Construct URLs for the filtered images
+            const imageUrls = imageFiles.map(file => path.join('/images', uniqueDirName, path.basename(file)));
+
+            const imagePath = imageFiles[0]; // Assuming you want to read the barcode from the first page
+            console.log(imagePath);
+
+            readBarcodeFromImage(imagePath)
+                .then((barcode) => {
+                    console.log('Barcode:', barcode);
+                    res.status(200).json({
+                        success: true,
+                        barcode: barcode,
+                        message: 'PDF converted to images',
+                        images: imageUrls,
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    res.status(200).json({
+                        success: true,
+                        message: 'Error in Reading barcode.',
+                        error: error.message,
+                        images: imageUrls,
+                    });
+                });
+        });
+
     } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        success: false,
-        message: 'Error in extracting pdf',
-        error: error.message
-      });
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error in extracting pdf',
+            error: error.message
+        });
     }
-  };
+};
 
 
 export const convertImageToPdfController = async (req, res) => {

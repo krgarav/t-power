@@ -1,5 +1,5 @@
-const url = "http://192.168.0.2:8000/"
-// const url = "http://localhost:8000/"
+// const url = "http://192.168.0.2:8000/"
+const url = "http://localhost:8000/"
 // const url = "http://backend:8000/"
 
 
