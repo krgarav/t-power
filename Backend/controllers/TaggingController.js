@@ -76,7 +76,7 @@ export const extractPdfController = async (req, res) => {
 
         const options = {
             format: 'png',
-            resolution: 300,
+            resolution: 72,
         };
 
         convertPDFToImages(filePath, outputDir, options, (error, files) => {
