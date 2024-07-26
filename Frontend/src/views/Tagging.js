@@ -172,7 +172,8 @@ const Tagging = () => {
         { id: 61, name: "DOMC (DOMICILE CERTIFICATE)" },
         { id: 62, name: "TAXR (House Tax Receipt)" },
         { id: 63, name: "WILL (WILL)" },
-        { id: 64, name: "CHKLT (Checklist)" }
+        { id: 64, name: "CHKLT (Checklist)" },
+        { id: 65, name: "PB (Personal Bond)" },
     ];
 
 
