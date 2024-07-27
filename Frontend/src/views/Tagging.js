@@ -174,6 +174,7 @@ const Tagging = () => {
         { id: 63, name: "WILL (WILL)" },
         { id: 64, name: "CHKLT (Checklist)" },
         { id: 65, name: "PB (Personal Bond)" },
+        { id: 67, name: "Seen On (seen on)" },
     ];
 
 
@@ -535,7 +536,7 @@ const Tagging = () => {
                                     </div>
 
                                     <div className="col-md-5">
-                                        {images.length > 0 && (
+                                        {images.length === 0 && (
                                             <>
 
                                                 <Row className="mb-3">
