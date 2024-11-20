@@ -411,7 +411,7 @@ const Tagging = () => {
     return (
         <>
             <NormalHeader />
-            <Container className="mt-7" fluid>
+            <Container className="mt--7" fluid>
                 {loader ? (
                     <Loader />
                 ) : ("")}
@@ -459,6 +459,7 @@ const Tagging = () => {
                                             getOptionLabel={option => option?.barcode}
                                             getOptionValue={option => option?.id?.toString()} // Convert to string if classId is a number
                                             classNamePrefix="select2-selection"
+                                            placeholder="Enter barcode to search"
                                         />
                                         {!selectedBarcode && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
                                     </div>
@@ -482,6 +483,7 @@ const Tagging = () => {
                                             getOptionLabel={option => option?.CSA}
                                             getOptionValue={option => option?.id?.toString()} // Convert to string if classId is a number
                                             classNamePrefix="select2-selection"
+                                            placeholder="Search barcode to get CSA"
                                         />
                                         {!selectedCSA && <span style={{ color: "red", display: spanDisplay }}>This feild is required</span>}
                                     </div>
